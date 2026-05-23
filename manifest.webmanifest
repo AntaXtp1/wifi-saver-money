@@ -1,0 +1,33 @@
+{
+  "name": "WiFi Saver",
+  "short_name": "WiFi Saver",
+  "description": "Nabung receh tiap hari biar WiFi MyRepublic aman tiap bulan.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#07090C",
+  "theme_color": "#07090C",
+  "lang": "id",
+  "categories": ["finance", "lifestyle", "utilities"],
+  "icons": [
+    {
+      "src": "icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Maskable icon: konten utama di-safe-zone (pusat 80%) untuk dipotong jadi bentuk apapun -->
+  <defs>
+    <linearGradient id="led" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1DFF8D"/>
+      <stop offset="100%" stop-color="#0BA85A"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" fill="#07090C"/>
+  <!-- Konten dijaga dalam radius ~205px dari pusat (safe area maskable) -->
+  <g fill="none" stroke="url(#led)" stroke-linecap="round" transform="translate(0,-10)">
+    <path d="M150 280 Q256 178 362 280" stroke-width="26"/>
+    <path d="M186 314 Q256 246 326 314" stroke-width="24" opacity="0.85"/>
+    <path d="M222 348 Q256 314 290 348" stroke-width="22" opacity="0.75"/>
+  </g>
+  <circle cx="256" cy="376" r="20" fill="#1DFF8D"/>
+</svg>

@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#07090C" />
+  <meta name="description" content="WiFi Saver — nabung receh tiap hari biar WiFi MyRepublic nggak putus." />
+
+  <title>WiFi Saver</title>
+
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="icons/icon-192.svg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="scanline" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="led" aria-hidden="true"></span>
+      <span class="wordmark">WiFi<span class="wordmark-accent">Saver</span></span>
+    </div>
+    <div class="topbar-actions">
+      <button id="installBtn" class="btn btn-ghost" hidden>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Install
+      </button>
+      <button id="notifBtn" class="btn btn-ghost" title="Atur pengingat nabung">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span id="notifLabel">Pengingat</span>
+      </button>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- HERO: progress bulan berjalan -->
+    <section class="hero card">
+      <div class="hero-head">
+        <div>
+          <p class="eyebrow" id="monthLabel">— bulan ini —</p>
+          <h1 class="hero-title">Nabung WiFi <span class="accent">MyRepublic</span></h1>
+        </div>
+        <label class="toggle">
+          <input type="checkbox" id="subsidyToggle" />
+          <span class="toggle-track" aria-hidden="true"></span>
+          <span class="toggle-label">Subsidi Emak <span class="muted">−Rp30.000</span></span>
+        </label>
+      </div>
+
+      <div class="amount-block">
+        <p class="amount-caption">Tabungan terkumpul</p>
+        <p class="amount-value"><span class="amount-currency">Rp</span><span id="totalSaved" class="num">0</span></p>
+        <p class="amount-sub">
+          dari target <span id="targetLabel" class="num">205.000</span>
+          <span id="remainingLabel" class="muted">· sisa <span class="num">205.000</span></span>
+        </p>
+      </div>
+
+      <div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat">
+          <p class="stat-label">Estimasi lunas</p>
+          <p class="stat-value"><span id="estDays" class="num">16</span><span class="stat-unit">hari</span></p>
+        </div>
+        <div class="stat">
+          <p class="stat-label">Rata-rata setor</p>
+          <p class="stat-value"><span class="amount-currency-sm">Rp</span><span id="avgDeposit" class="num">13.000</span></p>
+        </div>
+        <div class="stat">
+          <p class="stat-label">Jumlah setor</p>
+          <p class="stat-value"><span id="depositCount" class="num">0</span><span class="stat-unit">kali</span></p>
+        </div>
+      </div>
+
+      <div id="statusBox" class="status status-idle">
+        <span class="status-dot" aria-hidden="true"></span>
+        <p id="statusMsg">Belum nabung. WiFi-nya udah ngitung mundur, bro.</p>
+      </div>
+
+      <button id="finishBtn" class="btn btn-primary btn-block" hidden>
+        Selesai bulan ini · bayar MyRepublic
+      </button>
+    </section>
+
+    <!-- INPUT: setor -->
+    <section class="card">
+      <h2 class="section-title">Setor sekarang</h2>
+      <p class="section-sub">Receh dari sisa jajan juga dihitung. Konsistensi &gt; nominal.</p>
+
+      <form id="depositForm" class="deposit-form" novalidate>
+        <div class="input-row">
+          <span class="input-prefix">Rp</span>
+          <input
+            id="amountInput"
+            type="text"
+            inputmode="numeric"
+            autocomplete="off"
+            placeholder="0"
+            aria-label="Nominal setoran"
+          />
+          <button type="submit" class="btn btn-primary">Setor</button>
+        </div>
+        <p id="formError" class="form-error" hidden></p>
+
+        <div class="quick-row">
+          <button type="button" class="chip" data-quick="10000">
+            <span class="chip-amount">Rp10.000</span>
+            <span class="chip-label">sisa jajan</span>
+          </button>
+          <button type="button" class="chip" data-quick="15000">
+            <span class="chip-amount">Rp15.000</span>
+            <span class="chip-label">duit kaget</span>
+          </button>
+          <button type="button" class="chip" data-quick="100000">
+            <span class="chip-amount">Rp100.000</span>
+            <span class="chip-label">panen karet</span>
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- LOG harian -->
+    <section class="card">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">Log setoran</h2>
+          <p class="section-sub">Tiap setoran tercatat. Salah input? Hapus yang terakhir.</p>
+        </div>
+        <button id="undoBtn" class="btn btn-ghost btn-sm" disabled>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+          Hapus terakhir
+        </button>
+      </div>
+      <ul id="depositList" class="deposit-list">
+        <li class="empty">Belum ada setoran bulan ini.</li>
+      </ul>
+    </section>
+
+    <!-- ARSIP -->
+    <section class="card">
+      <h2 class="section-title">Arsip bulan lunas</h2>
+      <p class="section-sub">Riwayat permanen. Nggak ikut kehapus pas reset.</p>
+      <ul id="archiveList" class="archive-list">
+        <li class="empty">Belum ada bulan yang tercatat lunas.</li>
+      </ul>
+    </section>
+
+    <!-- GRAND TOTAL -->
+    <section class="card grand">
+      <h2 class="section-title">Grand total</h2>
+      <div class="grand-grid">
+        <div class="stat">
+          <p class="stat-label">Bulan lunas</p>
+          <p class="stat-value"><span id="grandMonths" class="num">0</span><span class="stat-unit">bln</span></p>
+        </div>
+        <div class="stat">
+          <p class="stat-label">Total dikeluarkan</p>
+          <p class="stat-value"><span class="amount-currency-sm">Rp</span><span id="grandTotal" class="num">0</span></p>
+        </div>
+        <div class="stat">
+          <p class="stat-label">Rata-rata per bulan</p>
+          <p class="stat-value"><span class="amount-currency-sm">Rp</span><span id="grandAvg" class="num">0</span></p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="page-footer">
+      <p>Dibuat buat anak kos &amp; mahasiswa yang WiFi-nya nggak boleh putus.</p>
+      <p class="muted">Data tersimpan lokal di browser ini. Hapus cache = hapus data.</p>
+    </footer>
+  </main>
+
+  <!-- MODAL: konfirmasi selesai -->
+  <div id="finishModal" class="modal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="finishTitle">
+      <h3 id="finishTitle" class="modal-title">Yakin udah selesai?</h3>
+      <p class="modal-body">
+        Begitu konfirmasi, bulan ini dikunci jadi arsip permanen dan tabungan reset ke nol.
+        Jangan asal pencet kalau cuma iseng — gue kunci beneran.
+      </p>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" data-close>Batal</button>
+        <button id="finishConfirm" class="btn btn-primary">Iya, kunci &amp; reset</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL: pengingat -->
+  <div id="notifModal" class="modal" hidden>
+    <div class="modal-backdrop" data-close></div>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="notifTitle">
+      <h3 id="notifTitle" class="modal-title">Pengingat nabung</h3>
+      <p class="modal-body">
+        Atur slot jam. Tiap slot bisa diset jumlah notif &amp; jeda antar notif.
+        Tiap notif pakai pesan yang berbeda. Akurat kalau app sudah di-install jadi PWA.
+      </p>
+      <div class="notif-fields">
+        <div class="field">
+          <span class="field-label">Aktifkan pengingat</span>
+          <label class="toggle">
+            <input type="checkbox" id="notifEnable" />
+            <span class="toggle-track" aria-hidden="true"></span>
+            <span class="toggle-label">on</span>
+          </label>
+        </div>
+
+        <div class="slots-section">
+          <div class="slots-header">
+            <span class="field-label">Slot waktu</span>
+            <button id="addSlotBtn" type="button" class="btn btn-ghost btn-sm">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              Tambah
+            </button>
+          </div>
+          <div id="slotsList" class="slots-list" aria-live="polite"></div>
+        </div>
+
+        <p id="notifStatus" class="form-error muted" hidden></p>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" data-close>Tutup</button>
+        <button id="notifTest" class="btn btn-ghost">Tes notifikasi</button>
+        <button id="notifSave" class="btn btn-primary">Simpan</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast" class="toast" hidden></div>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
