@@ -8,7 +8,7 @@
     "vapid": "node scripts/generate-vapid.js"
   },
   "dependencies": {
-    "@vercel/kv": "^3.0.0",
+    "@upstash/redis": "^1.34.3",
     "web-push": "^3.6.7"
   },
   "engines": {
