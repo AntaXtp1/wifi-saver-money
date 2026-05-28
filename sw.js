@@ -8,7 +8,7 @@
    - dedup window 10 menit pakai timestamp di SW state
 */
 
-const CACHE = 'wifi-saver-v2';
+const CACHE = 'wifi-saver-v3';
 const SHELL = [
   './',
   './index.html',
