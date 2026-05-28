@@ -15,7 +15,7 @@
 
   // ---------- CONSTANTS ----------
   const STORAGE_KEY = 'wifiSaver.v1';
-  const TARGET_FULL = 205000;
+  const TARGET_FULL = 220000;
   const TARGET_SUBSIDY = 175000;   // emak subsidi 30k
   const MIN_DEPOSIT = 1000;
   const DEFAULT_DAILY_ASSUMPTION = 13000;
